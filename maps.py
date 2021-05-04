@@ -1,4 +1,3 @@
-
 months ={
     1:"January",
     2:"February",
@@ -13,5 +12,3 @@ months ={
     11:"November",
     12:"December"
 }
-
-print(months[1])

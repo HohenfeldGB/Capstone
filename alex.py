@@ -1,5 +1,7 @@
 import pyttsx3
 import datetime
+
+from wikipedia.wikipedia import summary
 import maps
 import speech_recognition as sr 
 import smtplib
@@ -8,6 +10,9 @@ from email.message import EmailMessage
 import pyautogui
 import webbrowser as wb
 from time import sleep
+import wikipedia
+
+
 
 engine = pyttsx3.init() 
 
@@ -54,7 +59,7 @@ def greeting():
 
 
 def wishme():
-    speak("{}, glad to see you again! What can we do together today?\n".format(greeting()))
+    speak("{}, glad to see you again!\n".format(greeting()))
 
 
 
@@ -138,6 +143,14 @@ if __name__ == "__main__":
             except Exception as e:
                 print(e)
                 speak("Sorry friend, I couldn't send the email")
+
+        elif 'wikipedia' in query:
+            speak('Searching ...')
+            query = query.replace('wikipedia', '')
+            result = wikipedia.summary(query, sentences = 2)
+            print (result)
+            speak(result)
+
 
         elif "offline" or "bye" or "goodbye" in query:
             speak("See you soon!")

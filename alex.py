@@ -2,6 +2,9 @@ import pyttsx3
 import datetime
 import maps
 import speech_recognition as sr 
+import smtplib
+from secret import senderemail, epwd, to
+from email.message import EmailMessage
 
 engine = pyttsx3.init() 
 
@@ -18,11 +21,12 @@ def getVoices(voice):
     #print(voices[0].id)
     if voice == 1:
         engine.setProperty('voice', voices[0].id)
+        #speak ("Hello this is male alex")
+        
     if voice == 2:
         engine.setProperty('voice', voices[10].id)
-
-    speak ("Hello this is alex")
-
+        #speak ("Hello this is female alex")
+        
 
 def time():
     Time = datetime.datetime.now().strftime("%I:%M") # Hours == I; Minutes == M; Second == S
@@ -49,11 +53,7 @@ def greeting():
 def wishme():
     speak("{}, glad to see you again! What can we do together today?\n".format(greeting()))
 
-#while True:
-#voice = int(input("Press 1 for male and 2 for female voice\n"))
-#    speak(audio)
 
-#getVoices(voice)
 
 def takeCommandCMD():
     query = input("How can I help you today?")
@@ -67,30 +67,64 @@ def takeCommandMic():
         r.adjust_for_ambient_noise(source, duration=1)
         audio = r.listen(source)
         
-    try:
-        print("Recognizing...")
-        query = r.recognize_google(audio, language='en-US')
-        print(query)
-    except Exception as e:
-        print(e)
-        speak("Can you say that again, please?")
-        return "None"
+        try:
+            print("Recognizing...")
+            query = r.recognize_google(audio)
+            print(query)
+        except Exception as e:
+            print(e)
+            speak("Can you say that again, please?")
+            return "None"
     return query
 
+
+def sendEmail(receiver, subject, content):
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
+    server.login(senderemail, epwd)
+    email = EmailMessage()
+    email['From'] = senderemail
+    email['To'] = receiver
+    email['Subject'] = subject
+    email.set_content(content)
+    server.send_message(email)
+    server.close()
+
 if __name__ == "__main__":
+    
     wishme()
 
     while True:
-        query = takeCommandMic().lower()
+        query = takeCommandCMD().lower()
         if 'time' in query:
             time()
 
-        elif 'date' or 'day' in query:
-            date()
+        #elif 'date' or 'day' in query:
+        #    date()
             
-        else:
-            speak("I didn't quite get it. Can you repeat please?")
+        elif 'send ' and 'email' in query:
 
+            try:
+                speak('To whom do you want to send it?')
+                name = takeCommandCMD()
+                receiver = maps.email_list[name]
+                speak(' What is the subject of the email?')
+                subject = takeCommandCMD()
+                speak('and what should I write them?')
+                content = takeCommandCMD()
+                sendEmail(receiver,subject,content)
+                speak("Consider it done")
+            except Exception as e:
+                print(e)
+                speak("Sorry friend, I couldn't send the email")
+
+        elif "offline" or "bye" or "goodbye" in query:
+            speak("See you soon!")
+            quit()
+
+        else:
+            speak("I didn't quite get that. Can you repeat please?")
+        
 
 
             

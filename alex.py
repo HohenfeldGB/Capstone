@@ -11,7 +11,7 @@ import webbrowser as wb
 from time import sleep
 import wikipedia
 import pywhatkit
-
+import requests
 
 engine = pyttsx3.init() 
 
@@ -108,7 +108,6 @@ def searchGoogle():
     wb.open('https://www.google.com/search?q='+search)
 
 
-
 if __name__ == "__main__":
     
     wishme()
@@ -161,9 +160,25 @@ if __name__ == "__main__":
             speak("What video would you like to see?")
             video = takeCommandCMD()
             pywhatkit.playonyt(video)
-            speak("uuh that sounds interesting")
+            speak("that sounds interesting")
 
+        elif 'weather' in query:
+            city = 'new york'
+            url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid=6e93931106956f35887ca36ad7dc7be4'
 
+            res = requests.get(url)
+            data = res.json()
+
+            weather = data['weather'] [0] ['main']
+            temp = data['main']['temp']
+            desp =data['weather'] [0] ['description']
+            temp = round((temp - 32) * 5/9)
+            print(weather)
+            print(temp)
+            print(desp)    
+            speak(f'weather in {city} city is like') 
+            speak('Temperature : {} degree celcius'.format(temp))
+            speak('weather is {}'.format(desp))
 
         elif "offline" or "bye" or "goodbye" in query:
             speak("See you soon!")

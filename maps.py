@@ -21,3 +21,10 @@ email_list = {
     'othertest': 'gb.hohenfeld@gmail.com',
     'lucas': 'lucas.mudo@minerva.kgi.edu'
 }
+
+#Map with a list of people and their phones
+
+usernames={
+    'duda': '+55 71 99157413',
+    'lucas': '+1 628 777 9186'
+}

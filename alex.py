@@ -5,6 +5,9 @@ import speech_recognition as sr
 import smtplib
 from secret import senderemail, epwd, to
 from email.message import EmailMessage
+import pyautogui
+import webbrowser as wb
+from time import sleep
 
 engine = pyttsx3.init() 
 
@@ -90,6 +93,11 @@ def sendEmail(receiver, subject, content):
     server.send_message(email)
     server.close()
 
+def sendwppMsg(phone, message):
+    wb.open('https://web.whatsapp.com/send?phone='+phone+'&text='+message)
+    sleep(10)
+    pyautogui.press('enter')
+
 if __name__ == "__main__":
     
     wishme()
@@ -101,6 +109,19 @@ if __name__ == "__main__":
 
         #elif 'date' or 'day' in query:
         #    date()
+
+        elif 'send' and 'message' in query:
+            try:
+                speak('To whom do you want to send it?')
+                name = takeCommandCMD()
+                phone = maps.usernames[name]
+                speak(' What is the message?')
+                message = takeCommandCMD()
+                sendwppMsg(phone, message)
+                speak("Consider it done")
+            except Exception as e:
+                print(e)
+                speak("Sorry friend, I couldn't send the message")            
             
         elif 'send ' and 'email' in query:
 

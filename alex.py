@@ -103,6 +103,13 @@ def sendwppMsg(phone, message):
     sleep(10)
     pyautogui.press('enter')
 
+def searchGoogle():
+    speak('what should i search?')
+    search = takeCommandCMD()
+    wb.open('https://www.google.com/search?q='+search)
+
+
+
 if __name__ == "__main__":
     
     wishme()
@@ -151,11 +158,14 @@ if __name__ == "__main__":
             print (result)
             speak(result)
 
+        elif "google" or "search" in query:
+            searchGoogle()
 
         elif "offline" or "bye" or "goodbye" in query:
             speak("See you soon!")
             quit()
 
+        
         else:
             speak("I didn't quite get that. Can you repeat please?")
         

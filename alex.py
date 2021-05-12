@@ -1,6 +1,5 @@
 import pyttsx3
 import datetime
-
 from wikipedia.wikipedia import summary
 import maps
 import speech_recognition as sr 
@@ -11,7 +10,7 @@ import pyautogui
 import webbrowser as wb
 from time import sleep
 import wikipedia
-
+import pywhatkit
 
 
 engine = pyttsx3.init() 
@@ -158,14 +157,22 @@ if __name__ == "__main__":
             print (result)
             speak(result)
 
-        elif "google" or "search" in query:
-            searchGoogle()
+        elif "youtube" in query:
+            speak("What video would you like to see?")
+            video = takeCommandCMD()
+            pywhatkit.playonyt(video)
+            speak("uuh that sounds interesting")
+
+
 
         elif "offline" or "bye" or "goodbye" in query:
             speak("See you soon!")
             quit()
 
-        
+       
+
+
+
         else:
             speak("I didn't quite get that. Can you repeat please?")
         

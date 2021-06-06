@@ -13,7 +13,7 @@ import wikipedia
 import pywhatkit
 import requests
 from newsapi import NewsApiClient
-
+import clipboard
 
 engine = pyttsx3.init() 
 
@@ -122,6 +122,14 @@ def news():
     speak("That's all we got for now. Ask me for new updates in the near future")
 
 
+def text2speech():
+    text = clipboard.paste()
+    if len(text) != 0:
+        print(text)
+        speak(text)
+    else:
+        print("You have nothing in your clipboard, try to copy the text you want me to read")
+        speak("You have nothing in your clipboard, try to copy the text you want me to read")
 
 
 
@@ -201,6 +209,8 @@ if __name__ == "__main__":
         elif "news" in query:
             news()
 
+        elif "read" in query:
+            text2speech()
 
         elif "offline" or "bye" or "goodbye" in query:
             speak("See you soon!")

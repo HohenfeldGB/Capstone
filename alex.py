@@ -131,8 +131,14 @@ def text2speech():
         print("You have nothing in your clipboard, try to copy the text you want me to read")
         speak("You have nothing in your clipboard, try to copy the text you want me to read")
 
+def covid():
+    r = requests.get('https://coronavirus-19-api.herokuapp.com/all')
 
+    data = r.json()
+    covidData = f'Confirmed cases: {data["cases"]} \n Deaths : {data["deaths"]} \n Recovered: {data["recovered"]}'
 
+    print(covidData)
+    speak(covidData)
 
 if __name__ == "__main__":
     
@@ -212,6 +218,10 @@ if __name__ == "__main__":
         elif "read" in query:
             text2speech()
 
+
+
+        elif "covid" in query:
+            covid()
         elif "offline" or "bye" or "goodbye" in query:
             speak("See you soon!")
             quit()

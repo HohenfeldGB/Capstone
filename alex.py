@@ -111,11 +111,13 @@ def searchGoogle():
 
 def news():
     newsapi = NewsApiClient(api_key="3c8fee0965264cdd92b851f2bf63970a")
-    data = newsapi.get_top_headlines(q = 'COVID', language = "en", page_size = 5)
+    speak('What topic are you interested today?')
+    topic = takeCommandCMD()
+    data = newsapi.get_top_headlines(q = topic, language = "en", page_size = 5)
     newsdata = data['articles']
     for x,y in enumerate(newsdata):
-        print(f'{x}{y["description"]}')
-        speak((f'{x}{y["description"]})'))
+        print(f'{x+1}. {y["description"]}')
+        speak((f'{x+1}. {y["description"]})'))
     
     speak("That's all we got for now. Ask me for new updates in the near future")
 

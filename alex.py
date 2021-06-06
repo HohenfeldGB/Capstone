@@ -14,6 +14,9 @@ import pywhatkit
 import requests
 from newsapi import NewsApiClient
 import clipboard
+import os
+import pyjokes
+
 
 engine = pyttsx3.init() 
 
@@ -219,9 +222,16 @@ if __name__ == "__main__":
             text2speech()
 
 
-
         elif "covid" in query:
             covid()
+
+        elif "joke" in query:
+
+            joke = pyjokes.get_joke()
+            print(joke)
+            speak(joke)
+
+
         elif "offline" or "bye" or "goodbye" in query:
             speak("See you soon!")
             quit()

@@ -16,7 +16,8 @@ from newsapi import NewsApiClient
 import clipboard
 import os
 import pyjokes
-
+import string
+import random
 
 engine = pyttsx3.init() 
 
@@ -143,6 +144,44 @@ def covid():
     print(covidData)
     speak(covidData)
 
+def passwordGen():
+    s1 = string.ascii_uppercase
+    s2 = string.ascii_lowercase
+    s3 = string.digits
+    s4 = string.punctuation
+
+    passLen = 14
+    s = []
+    s.extend(s1)
+    s.extend(s2)
+    s.extend(s3)
+    s.extend(s4)
+
+    random.shuffle(s)
+    newPass = ("".join(s[0:passLen]))
+
+    print(newPass)
+    speak(newPass)
+
+def flipCoin():
+    speak("Looks like I will be helping you make a decision today. Let's flip a coin!")
+    coin = ['heads', ' tails']
+    toss = []
+    toss.extend(coin)
+    random.shuffle(toss)
+    toss = ("".join(toss[0]))
+    speak("Alright! You got: " + toss)
+
+def rollDice():
+    speak("Noice! dice have always amazed me! Let's roll!")
+    die = ['1', '2', '3', '4', '5', '6']
+
+    roll = []
+    roll.extend(die)
+    random.shuffle(roll)
+    roll = ("".join(roll[0]))
+    speak("Drum rolls please. The number you got is" + roll)
+
 if __name__ == "__main__":
     
     wishme()
@@ -231,18 +270,35 @@ if __name__ == "__main__":
             print(joke)
             speak(joke)
 
+        elif "remember" in query:
+            speak("What should I remember for you? \n")
+            data = takeCommandCMD()
 
-        elif "offline" or "bye" or "goodbye" in query:
-            speak("See you soon!")
-            quit()
-
+            speak("I will remember that you said: "+ data)
+            remember = open('data.txt', 'w')
+            remember.write(data)
+            remember.close()
         
+        elif "do you know anything" in query:
+            remember = open('data.txt', 'r')
+            speak("You asked me to remember that" + remember.read())
 
+        elif "password" in query:
+            passwordGen()
 
+        elif "flip a coin" in query:
+            flipCoin()
+        
+        elif "roll" in query:
+            rollDice()
+            
+        #elif "offline" or "bye" or "goodbye" in query:
+        #    speak("See you soon!")
+        #    quit()
 
         else:
             speak("I didn't quite get that. Can you repeat please?")
         
 
 
-            
+        

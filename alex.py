@@ -66,8 +66,6 @@ def greeting():
 def wishme():
     speak("{}, glad to see you again!\n".format(greeting()))
 
-
-
 def takeCommandCMD():
     query = input("How can I help you today?")
     return query
@@ -237,7 +235,7 @@ if __name__ == "__main__":
             speak("that sounds interesting")
 
         elif 'weather' in query:
-            city = 'chicago'
+            city = 'berlin'
             url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid=6e93931106956f35887ca36ad7dc7be4'
 
             res = requests.get(url)
@@ -259,7 +257,6 @@ if __name__ == "__main__":
 
         elif "read" in query:
             text2speech()
-
 
         elif "covid" in query:
             covid()
@@ -297,8 +294,4 @@ if __name__ == "__main__":
         #    quit()
 
         else:
-            speak("I didn't quite get that. Can you repeat please?")
-        
-
-
-        
+            speak("I didn't quite get that. Can you repeat please?")       

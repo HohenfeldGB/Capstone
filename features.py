@@ -18,6 +18,7 @@ import os
 import pyjokes
 import string
 import random
+import responsesGeneric
 
 engine = pyttsx3.init() 
 
@@ -107,7 +108,7 @@ def sendwppMsg(phone, message):
     pyautogui.press('enter')
 
 def searchGoogle():
-    speak('what should i search?')
+    speak(randomizeResponse(responsesGeneric.searchGoogleResponses))
     search = takeCommandCMD()
     wb.open('https://www.google.com/search?q='+search)
 
@@ -162,7 +163,7 @@ def passwordGen():
     speak(newPass)
 
 def flipCoin():
-    speak("Looks like I will be helping you make a decision today. Let's flip a coin!")
+    speak(randomizeResponse(responsesGeneric.flipCoinResponses))
     coin = ['heads', ' tails']
     toss = []
     toss.extend(coin)
@@ -171,7 +172,7 @@ def flipCoin():
     speak("Alright! You got: " + toss)
 
 def rollDice():
-    speak("Noice! dice have always amazed me! Let's roll!")
+    speak(randomizeResponse(responsesGeneric.rollDiceReponses))
     die = ['1', '2', '3', '4', '5', '6']
 
     roll = []
@@ -179,3 +180,7 @@ def rollDice():
     random.shuffle(roll)
     roll = ("".join(roll[0]))
     speak("Drum rolls please. The number you got is" + roll)
+
+def randomizeResponse(responses):
+    choice = random.randint(0, len(responses)-1)
+    return responses[choice]

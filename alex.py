@@ -1,7 +1,6 @@
 import features
 import maps
-#engine = pyttsx3.init() 
-
+import responsesGeneric
 
 if __name__ == "__main__":
     
@@ -47,15 +46,18 @@ if __name__ == "__main__":
         elif 'wikipedia' in query:
             features.speak('Searching ...')
             query = query.replace('wikipedia', '')
-            result = wikipedia.summary(query, sentences = 2)
+            result = features.wikipedia.summary(query, sentences = 2)
             print (result)
             features.speak(result)
+        
+        elif "google" in query:
+            features.searchGoogle()
 
         elif "youtube" in query:
-            features.speak("What video would you like to see?")
+            features.speak(features.randomizeResponse(responsesGeneric.youtubeResponses))
             video = features.takeCommandCMD()
             features.pywhatkit.playonyt(video)
-            features.speak("that sounds interesting")
+            features.speak(features.randomizeResponse(responsesGeneric.amusementIntention))
 
         elif 'weather' in query:
             city = 'berlin'
@@ -76,7 +78,7 @@ if __name__ == "__main__":
             features.speak('weather is {}'.format(desp))
         
         elif "news" in query:
-            features.ews()
+            features.news()
 
         elif "read" in query:
             features.text2speech()
@@ -85,8 +87,7 @@ if __name__ == "__main__":
             features.covid()
 
         elif "joke" in query:
-
-            joke = pyjokes.get_joke()
+            joke = features.pyjokes.get_joke()
             print(joke)
             features.speak(joke)
 
@@ -102,6 +103,7 @@ if __name__ == "__main__":
         elif "do you know anything" in query:
             remember = open('data.txt', 'r')
             features.speak("You asked me to remember that" + remember.read())
+            print("You asked me to remember that" + remember)
 
         elif "password" in query:
             features.passwordGen()
@@ -117,4 +119,5 @@ if __name__ == "__main__":
             quit()
 
         else:
-            features.speak("I didn't quite get that. Can you repeat please?")       
+            features.speak("I didn't quite get that. Can you repeat please?")      
+            print("I didn't quite get that. Can you repeat please?")  

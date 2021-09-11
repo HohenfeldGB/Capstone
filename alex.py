@@ -1,207 +1,67 @@
-import pyttsx3
-import datetime
-from wikipedia.wikipedia import summary
+import features
 import maps
-import speech_recognition as sr 
-import smtplib
-from secret import senderemail, epwd, to
-from email.message import EmailMessage
-import pyautogui
-import webbrowser as wb
-from time import sleep
-import wikipedia
-import pywhatkit
-import requests
-from newsapi import NewsApiClient
-import clipboard
-import os
-import pyjokes
+#engine = pyttsx3.init() 
 
-
-engine = pyttsx3.init() 
-
-def speak(audio):
-    voices = engine.getProperty('voices')
-    rate = engine.getProperty('rate')
-    engine.setProperty("rate", 200)
-    engine.setProperty('voice', voices[10].id)
-    engine.say(audio)
-    engine.runAndWait()
-    
-def getVoices(voice):
-    voices = engine.getProperty('voices')
-    #print(voices[0].id)
-    if voice == 1:
-        engine.setProperty('voice', voices[0].id)
-        #speak ("Hello this is male alex")
-        
-    if voice == 2:
-        engine.setProperty('voice', voices[10].id)
-        #speak ("Hello this is female alex")
-        
-
-def time():
-    Time = datetime.datetime.now().strftime("%I:%M") # Hours == I; Minutes == M; Second == S
-    speak("Right now is {}".format(Time))
-    
-def date():
-    year = int(datetime.datetime.now().year)
-    month = int(datetime.datetime.now().month )
-    date = str(datetime.datetime.now().day )
-    speak("Today is {}, {}".format(maps.months[month], date))
-    
-def greeting():
-    hour = datetime.datetime.now().hour
-    if hour > 6 and hour < 12:
-        return("Good morning friend")
-    elif hour >=12 and hour <18:
-        return ("Good afternoon friend")
-    elif hour >=18 and hour < 24:
-        return ("Good evening friend!")
-    else:
-        return("Good night friend!")
-
-
-def wishme():
-    speak("{}, glad to see you again!\n".format(greeting()))
-
-
-
-def takeCommandCMD():
-    query = input("How can I help you today?")
-    return query
-
-def takeCommandMic():
-    r = sr.Recognizer()
-
-    with sr.Microphone() as source:
-        print("Listening...")
-        r.adjust_for_ambient_noise(source, duration=1)
-        audio = r.listen(source)
-        
-        try:
-            print("Recognizing...")
-            query = r.recognize_google(audio)
-            print(query)
-        except Exception as e:
-            print(e)
-            speak("Can you say that again, please?")
-            return "None"
-    return query
-
-
-def sendEmail(receiver, subject, content):
-    server = smtplib.SMTP("smtp.gmail.com", 587)
-    server.starttls()
-    server.login(senderemail, epwd)
-    email = EmailMessage()
-    email['From'] = senderemail
-    email['To'] = receiver
-    email['Subject'] = subject
-    email.set_content(content)
-    server.send_message(email)
-    server.close()
-
-def sendwppMsg(phone, message):
-    wb.open('https://web.whatsapp.com/send?phone='+phone+'&text='+message)
-    sleep(10)
-    pyautogui.press('enter')
-
-def searchGoogle():
-    speak('what should i search?')
-    search = takeCommandCMD()
-    wb.open('https://www.google.com/search?q='+search)
-
-def news():
-    newsapi = NewsApiClient(api_key="3c8fee0965264cdd92b851f2bf63970a")
-    speak('What topic are you interested today?')
-    topic = takeCommandCMD()
-    data = newsapi.get_top_headlines(q = topic, language = "en", page_size = 5)
-    newsdata = data['articles']
-    for x,y in enumerate(newsdata):
-        print(f'{x+1}. {y["description"]}')
-        speak((f'{x+1}. {y["description"]})'))
-    
-    speak("That's all we got for now. Ask me for new updates in the near future")
-
-
-def text2speech():
-    text = clipboard.paste()
-    if len(text) != 0:
-        print(text)
-        speak(text)
-    else:
-        print("You have nothing in your clipboard, try to copy the text you want me to read")
-        speak("You have nothing in your clipboard, try to copy the text you want me to read")
-
-def covid():
-    r = requests.get('https://coronavirus-19-api.herokuapp.com/all')
-
-    data = r.json()
-    covidData = f'Confirmed cases: {data["cases"]} \n Deaths : {data["deaths"]} \n Recovered: {data["recovered"]}'
-
-    print(covidData)
-    speak(covidData)
 
 if __name__ == "__main__":
     
-    wishme()
+    features.wishme()
 
     while True:
-        query = takeCommandCMD().lower()
+        query = features.takeCommandCMD().lower()
         if 'time' in query:
-            time()
+            features.time()
 
         #elif 'date' or 'day' in query:
         #    date()
 
         elif 'send' and 'message' in query:
             try:
-                speak('To whom do you want to send it?')
-                name = takeCommandCMD()
+                features.speak('To whom do you want to send it?')
+                name = features.takeCommandCMD()
                 phone = maps.usernames[name]
-                speak(' What is the message?')
-                message = takeCommandCMD()
-                sendwppMsg(phone, message)
-                speak("Consider it done")
+                features.speak(' What is the message?')
+                message = features.takeCommandCMD()
+                features.sendwppMsg(phone, message)
+                features.speak("Consider it done")
             except Exception as e:
                 print(e)
-                speak("Sorry friend, I couldn't send the message")            
+                features.speak("Sorry friend, I couldn't send the message")            
             
         elif 'send ' and 'email' in query:
 
             try:
-                speak('To whom do you want to send it?')
-                name = takeCommandCMD()
+                features.speak('To whom do you want to send it?')
+                name = features.takeCommandCMD()
                 receiver = maps.email_list[name]
-                speak(' What is the subject of the email?')
-                subject = takeCommandCMD()
-                speak('and what should I write them?')
-                content = takeCommandCMD()
-                sendEmail(receiver,subject,content)
-                speak("Consider it done")
+                features.speak(' What is the subject of the email?')
+                subject = features.takeCommandCMD()
+                features.speak('and what should I write them?')
+                content = features.takeCommandCMD()
+                features.sendEmail(receiver,subject,content)
+                features.speak("Consider it done")
             except Exception as e:
                 print(e)
-                speak("Sorry friend, I couldn't send the email")
+                features.speak("Sorry friend, I couldn't send the email")
 
         elif 'wikipedia' in query:
-            speak('Searching ...')
+            features.speak('Searching ...')
             query = query.replace('wikipedia', '')
             result = wikipedia.summary(query, sentences = 2)
             print (result)
-            speak(result)
+            features.speak(result)
 
         elif "youtube" in query:
-            speak("What video would you like to see?")
-            video = takeCommandCMD()
-            pywhatkit.playonyt(video)
-            speak("that sounds interesting")
+            features.speak("What video would you like to see?")
+            video = features.takeCommandCMD()
+            features.pywhatkit.playonyt(video)
+            features.speak("that sounds interesting")
 
         elif 'weather' in query:
-            city = 'chicago'
+            city = 'berlin'
             url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid=6e93931106956f35887ca36ad7dc7be4'
 
-            res = requests.get(url)
+            res = features.requests.get(url)
             data = res.json()
 
             weather = data['weather'] [0] ['main']
@@ -211,38 +71,50 @@ if __name__ == "__main__":
             print(weather)
             print(temp)
             print(desp)    
-            speak(f'weather in {city} city is like') 
-            speak('Temperature : {} degree celcius'.format(temp))
-            speak('weather is {}'.format(desp))
+            features.speak(f'weather in {city} city is like') 
+            features.speak('Temperature : {} degree celcius'.format(temp))
+            features.speak('weather is {}'.format(desp))
         
         elif "news" in query:
-            news()
+            features.ews()
 
         elif "read" in query:
-            text2speech()
-
+            features.text2speech()
 
         elif "covid" in query:
-            covid()
+            features.covid()
 
         elif "joke" in query:
 
             joke = pyjokes.get_joke()
             print(joke)
-            speak(joke)
+            features.speak(joke)
 
+        elif "remember" in query:
+            features.speak("What should I remember for you? \n")
+            data = features.takeCommandCMD()
 
+            features.speak("I will remember that you said: "+ data)
+            remember = open('data.txt', 'w')
+            remember.write(data)
+            remember.close()
+        
+        elif "do you know anything" in query:
+            remember = open('data.txt', 'r')
+            features.speak("You asked me to remember that" + remember.read())
+
+        elif "password" in query:
+            features.passwordGen()
+
+        elif "flip a coin" in query:
+            features.flipCoin()
+        
+        elif "roll" in query:
+            features.rollDice()
+            
         elif "offline" or "bye" or "goodbye" in query:
-            speak("See you soon!")
+            features.speak("See you soon!")
             quit()
 
-        
-
-
-
         else:
-            speak("I didn't quite get that. Can you repeat please?")
-        
-
-
-            
+            features.speak("I didn't quite get that. Can you repeat please?")       

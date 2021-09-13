@@ -36,3 +36,21 @@ youtubeResponses = [
     "Sure! What do you feel like watching?",
     "Oh I really hope you want to see a good movie trailer. What's the name of the video you'd like to see?"
 ]
+
+clipboardReadFail = [
+    "You have nothing in your clipboard, try to copy the text you want me to read",
+    "I don't see anything in your clipboard. Try to copy something again",
+    "Try to copy something again. I can't see anything in your clipboard"
+]
+
+dramaticRevealResponse = [
+    "Alright! You got: ",
+    "Sounds of dramatic reveal. You got: ",
+    "Drum rolls please. The number you got is" 
+]
+
+thatIsAllResponse = [
+    "That's all we got for now. Ask me for new updates in the near future",
+    "That's all for now. Ask me again tomorrow",
+    "And that's a wrap. I will let you know when I have more updates"
+]

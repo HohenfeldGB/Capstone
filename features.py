@@ -116,13 +116,14 @@ def news():
     newsapi = NewsApiClient(api_key="3c8fee0965264cdd92b851f2bf63970a")
     speak('What topic are you interested today?')
     topic = takeCommandCMD()
-    data = newsapi.get_top_headlines(q = topic, language = "en", page_size = 5)
+    data = newsapi.get_top_headlines(q = topic, language = "en", page_size = 3)
     newsdata = data['articles']
     for x,y in enumerate(newsdata):
         print(f'{x+1}. {y["description"]}')
         speak((f'{x+1}. {y["description"]})'))
     
-    speak("That's all we got for now. Ask me for new updates in the near future")
+    speak(randomizeResponse(responsesGeneric.thatIsAllResponse))
+    print(randomizeResponse(responsesGeneric.thatIsAllResponse))
 
 
 def text2speech():
@@ -131,8 +132,8 @@ def text2speech():
         print(text)
         speak(text)
     else:
-        print("You have nothing in your clipboard, try to copy the text you want me to read")
-        speak("You have nothing in your clipboard, try to copy the text you want me to read")
+        print(randomizeResponse(responsesGeneric.clipboardReadFail))
+        speak(randomizeResponse(responsesGeneric.clipboardReadFail))
 
 def covid():
     r = requests.get('https://coronavirus-19-api.herokuapp.com/all')
@@ -169,7 +170,8 @@ def flipCoin():
     toss.extend(coin)
     random.shuffle(toss)
     toss = ("".join(toss[0]))
-    speak("Alright! You got: " + toss)
+    speak(randomizeResponse(responsesGeneric.dramaticRevealResponse) + toss)
+    print(randomizeResponse(responsesGeneric.dramaticRevealResponse) + toss)
 
 def rollDice():
     speak(randomizeResponse(responsesGeneric.rollDiceReponses))
@@ -179,7 +181,8 @@ def rollDice():
     roll.extend(die)
     random.shuffle(roll)
     roll = ("".join(roll[0]))
-    speak("Drum rolls please. The number you got is" + roll)
+    speak(randomizeResponse(responsesGeneric.dramaticRevealResponse)+ roll)
+    print(randomizeResponse(responsesGeneric.dramaticRevealResponse)+ roll)
 
 def randomizeResponse(responses):
     choice = random.randint(0, len(responses)-1)

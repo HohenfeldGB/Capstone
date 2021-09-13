@@ -19,7 +19,7 @@ if __name__ == "__main__":
                 features.speak('To whom do you want to send it?')
                 name = features.takeCommandCMD()
                 phone = maps.usernames[name]
-                features.speak(' What is the message?')
+                features.speak('What is the message?')
                 message = features.takeCommandCMD()
                 features.sendwppMsg(phone, message)
                 features.speak("Consider it done")

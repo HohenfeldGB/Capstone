@@ -1,7 +1,6 @@
 import features
 import maps
-#engine = pyttsx3.init() 
-
+import responsesGeneric
 
 if __name__ == "__main__":
     
@@ -9,6 +8,7 @@ if __name__ == "__main__":
 
     while True:
         query = features.takeCommandCMD().lower()
+        
         if 'time' in query:
             features.time()
 
@@ -20,13 +20,13 @@ if __name__ == "__main__":
                 features.speak('To whom do you want to send it?')
                 name = features.takeCommandCMD()
                 phone = maps.usernames[name]
-                features.speak(' What is the message?')
+                features.speak('What is the message?')
                 message = features.takeCommandCMD()
                 features.sendwppMsg(phone, message)
                 features.speak("Consider it done")
             except Exception as e:
                 print(e)
-                features.speak("Sorry friend, I couldn't send the message")            
+                features.speak("Sorry friend, I couldn't send the message")         
             
         elif 'send ' and 'email' in query:
 
@@ -47,15 +47,17 @@ if __name__ == "__main__":
         elif 'wikipedia' in query:
             features.speak('Searching ...')
             query = query.replace('wikipedia', '')
-            result = wikipedia.summary(query, sentences = 2)
-            print (result)
+            result = features.wikipedia.summary(query, sentences = 2)
             features.speak(result)
+        
+        elif "google" in query:
+            features.searchGoogle()
 
         elif "youtube" in query:
-            features.speak("What video would you like to see?")
+            features.speak(features.randomizeResponse(responsesGeneric.youtubeResponses))
             video = features.takeCommandCMD()
             features.pywhatkit.playonyt(video)
-            features.speak("that sounds interesting")
+            features.speak(features.randomizeResponse(responsesGeneric.amusementIntention))
 
         elif 'weather' in query:
             city = 'berlin'
@@ -68,15 +70,12 @@ if __name__ == "__main__":
             temp = data['main']['temp']
             desp =data['weather'] [0] ['description']
             temp = round((temp - 32) * 5/9)
-            print(weather)
-            print(temp)
-            print(desp)    
-            features.speak(f'weather in {city} city is like') 
+            features.speak(f'weather in {city} city is like')
             features.speak('Temperature : {} degree celcius'.format(temp))
             features.speak('weather is {}'.format(desp))
         
         elif "news" in query:
-            features.ews()
+            features.news()
 
         elif "read" in query:
             features.text2speech()
@@ -85,9 +84,7 @@ if __name__ == "__main__":
             features.covid()
 
         elif "joke" in query:
-
-            joke = pyjokes.get_joke()
-            print(joke)
+            joke = features.pyjokes.get_joke()
             features.speak(joke)
 
         elif "remember" in query:
@@ -101,7 +98,7 @@ if __name__ == "__main__":
         
         elif "do you know anything" in query:
             remember = open('data.txt', 'r')
-            features.speak("You asked me to remember that" + remember.read())
+            features.speak("You asked me to remember that " + remember.read())
 
         elif "password" in query:
             features.passwordGen()
@@ -112,9 +109,9 @@ if __name__ == "__main__":
         elif "roll" in query:
             features.rollDice()
             
-        elif "offline" or "bye" or "goodbye" in query:
-            features.speak("See you soon!")
+        elif "bye" in query:
+            features.speak(features.randomizeResponse(responsesGeneric.farewellResponses))
             quit()
 
         else:
-            features.speak("I didn't quite get that. Can you repeat please?")       
+            features.speak(features.randomizeResponse(responsesGeneric.failUnderstandingResponses))       

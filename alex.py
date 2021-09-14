@@ -8,6 +8,7 @@ if __name__ == "__main__":
 
     while True:
         query = features.takeCommandCMD().lower()
+        
         if 'time' in query:
             features.time()
 
@@ -25,7 +26,7 @@ if __name__ == "__main__":
                 features.speak("Consider it done")
             except Exception as e:
                 print(e)
-                features.speak("Sorry friend, I couldn't send the message")            
+                features.speak("Sorry friend, I couldn't send the message")         
             
         elif 'send ' and 'email' in query:
 
@@ -47,7 +48,6 @@ if __name__ == "__main__":
             features.speak('Searching ...')
             query = query.replace('wikipedia', '')
             result = features.wikipedia.summary(query, sentences = 2)
-            print (result)
             features.speak(result)
         
         elif "google" in query:
@@ -70,10 +70,7 @@ if __name__ == "__main__":
             temp = data['main']['temp']
             desp =data['weather'] [0] ['description']
             temp = round((temp - 32) * 5/9)
-            print(weather)
-            print(temp)
-            print(desp)    
-            features.speak(f'weather in {city} city is like') 
+            features.speak(f'weather in {city} city is like')
             features.speak('Temperature : {} degree celcius'.format(temp))
             features.speak('weather is {}'.format(desp))
         
@@ -88,7 +85,6 @@ if __name__ == "__main__":
 
         elif "joke" in query:
             joke = features.pyjokes.get_joke()
-            print(joke)
             features.speak(joke)
 
         elif "remember" in query:
@@ -102,8 +98,7 @@ if __name__ == "__main__":
         
         elif "do you know anything" in query:
             remember = open('data.txt', 'r')
-            features.speak("You asked me to remember that" + remember.read())
-            print("You asked me to remember that" + remember)
+            features.speak("You asked me to remember that " + remember.read())
 
         elif "password" in query:
             features.passwordGen()
@@ -114,10 +109,9 @@ if __name__ == "__main__":
         elif "roll" in query:
             features.rollDice()
             
-        elif "offline" or "bye" or "goodbye" in query:
-            features.speak("See you soon!")
+        elif "bye" in query:
+            features.speak(features.randomizeResponse(responsesGeneric.farewellResponses))
             quit()
 
         else:
-            features.speak("I didn't quite get that. Can you repeat please?")      
-            print("I didn't quite get that. Can you repeat please?")  
+            features.speak(features.randomizeResponse(responsesGeneric.failUnderstandingResponses))       

@@ -54,3 +54,19 @@ thatIsAllResponse = [
     "That's all for now. Ask me again tomorrow",
     "And that's a wrap. I will let you know when I have more updates"
 ]
+
+farewellResponses = [
+    "See you soon!",
+    "Hope to see you soon!",
+    "Bye bye",
+    "Goodbye",
+    "Take care",
+    "Ciao!",
+    "Sayonara"
+]
+
+failUnderstandingResponses = [
+    "I didn't quite get that. Can you repeat please?",
+    "Can you repeat, please? I didn't get that",
+    "I couldn't understand. Could you repeat?",
+]

@@ -28,6 +28,7 @@ def speak(audio):
     engine.setProperty("rate", 200)
     engine.setProperty('voice', voices[10].id)
     engine.say(audio)
+    print(audio)
     engine.runAndWait()
     
 def getVoices(voice):
@@ -68,7 +69,7 @@ def wishme():
     speak("{}, glad to see you again!\n".format(greeting()))
 
 def takeCommandCMD():
-    query = input("How can I help you today?")
+    query = input("How can I help you?")
     return query
 
 def takeCommandMic():
@@ -123,16 +124,13 @@ def news():
         speak((f'{x+1}. {y["description"]})'))
     
     speak(randomizeResponse(responsesGeneric.thatIsAllResponse))
-    print(randomizeResponse(responsesGeneric.thatIsAllResponse))
 
 
 def text2speech():
     text = clipboard.paste()
     if len(text) != 0:
-        print(text)
         speak(text)
     else:
-        print(randomizeResponse(responsesGeneric.clipboardReadFail))
         speak(randomizeResponse(responsesGeneric.clipboardReadFail))
 
 def covid():
@@ -141,7 +139,6 @@ def covid():
     data = r.json()
     covidData = f'Confirmed cases: {data["cases"]} \n Deaths : {data["deaths"]} \n Recovered: {data["recovered"]}'
 
-    print(covidData)
     speak(covidData)
 
 def passwordGen():
@@ -160,8 +157,7 @@ def passwordGen():
     random.shuffle(s)
     newPass = ("".join(s[0:passLen]))
 
-    print(newPass)
-    speak(newPass)
+    speak("Your generated password is: ", newPass)
 
 def flipCoin():
     speak(randomizeResponse(responsesGeneric.flipCoinResponses))
@@ -171,7 +167,6 @@ def flipCoin():
     random.shuffle(toss)
     toss = ("".join(toss[0]))
     speak(randomizeResponse(responsesGeneric.dramaticRevealResponse) + toss)
-    print(randomizeResponse(responsesGeneric.dramaticRevealResponse) + toss)
 
 def rollDice():
     speak(randomizeResponse(responsesGeneric.rollDiceReponses))
@@ -182,7 +177,6 @@ def rollDice():
     random.shuffle(roll)
     roll = ("".join(roll[0]))
     speak(randomizeResponse(responsesGeneric.dramaticRevealResponse)+ roll)
-    print(randomizeResponse(responsesGeneric.dramaticRevealResponse)+ roll)
 
 def randomizeResponse(responses):
     choice = random.randint(0, len(responses)-1)

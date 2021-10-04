@@ -64,7 +64,6 @@ def greeting():
     else:
         return("Good night friend!")
 
-
 def wishme():
     speak("{}, glad to see you again!\n".format(greeting()))
 
@@ -89,7 +88,6 @@ def takeCommandMic():
             speak("Can you say that again, please?")
             return "None"
     return query
-
 
 def sendEmail(receiver, subject, content):
     server = smtplib.SMTP("smtp.gmail.com", 587)
@@ -120,11 +118,9 @@ def news():
     data = newsapi.get_top_headlines(q = topic, language = "en", page_size = 3)
     newsdata = data['articles']
     for x,y in enumerate(newsdata):
-        print(f'{x+1}. {y["description"]}')
         speak((f'{x+1}. {y["description"]})'))
     
     speak(randomizeResponse(responsesGeneric.thatIsAllResponse))
-
 
 def text2speech():
     text = clipboard.paste()
@@ -156,8 +152,8 @@ def passwordGen():
 
     random.shuffle(s)
     newPass = ("".join(s[0:passLen]))
-
-    speak("Your generated password is: ", newPass)
+    passResponse = ("Your generated password is: {}".format(newPass))
+    speak(passResponse)
 
 def flipCoin():
     speak(randomizeResponse(responsesGeneric.flipCoinResponses))

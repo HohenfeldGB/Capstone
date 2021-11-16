@@ -47,7 +47,7 @@ if __name__ == "__main__":
         elif 'wikipedia' in query:
             features.speak('Searching ...')
             query = query.replace('wikipedia', '')
-            result = features.wikipedia.summary(query, sentences = 2)
+            result = features.wikipedWia.summary(query, sentences = 2)
             features.speak(result)
         
         elif "google" in query:
@@ -98,7 +98,7 @@ if __name__ == "__main__":
         
         elif "do you know anything" in query:
             remember = open('data.txt', 'r')
-            features.speak("You asked me to remember that " + remember.read())
+            features.speak("You asked me to remember that you said " + remember.read())
 
         elif "password" in query:
             features.passwordGen()

@@ -46,7 +46,7 @@ clipboardReadFail = [
 dramaticRevealResponse = [
     "Alright! You got: ",
     "Sounds of dramatic reveal. You got: ",
-    "Drum rolls please. The number you got is" 
+    "Drum rolls please. The result you got is " 
 ]
 
 thatIsAllResponse = [
